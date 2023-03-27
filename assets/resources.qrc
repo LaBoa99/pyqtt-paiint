@@ -1,0 +1,14 @@
+<RCC>
+  <qresource>
+    <file>triangulo.png</file>
+    <file>borrador.png</file>
+    <file>circulo.png</file>
+    <file>cuadrado.png</file>
+    <file>cuadrado_redondo.png</file>
+    <file>cubetas.png</file>
+    <file>cuenta_gotas.png</file>
+    <file>lapiz.png</file>
+    <file>linea.png</file>
+    <file>pincel.png</file>
+  </qresource>
+</RCC>
