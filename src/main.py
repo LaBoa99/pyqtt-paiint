@@ -12,6 +12,13 @@ from paint import PaintWidget
 class MainWindow(QMainWindow):
     def __init__(self, parent=None):
         super().__init__(parent)
+        # Establecer el tamaño mínimo y máximo de la ventana
+        self.setMinimumSize(800, 600)
+        self.setMaximumSize(800, 600)
+        
+        # Establecer un tamaño fijo para la ventana
+        self.setFixedSize(800, 600)
+        
         self.tool = Herramientas.LAPIZ
         self.paint = PaintWidget()
         
@@ -32,6 +39,7 @@ class MainWindow(QMainWindow):
     
     def changeTool(self, tool):
         print(tool)
+        self.paint.tool = tool
     
     def init_ui(self):
         self.show()
