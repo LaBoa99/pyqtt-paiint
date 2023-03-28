@@ -28,6 +28,7 @@ class MainWindow(QMainWindow):
         
         self.paint_widget.onColorClick.connect(lambda color: self.changeColor(color))
         self.paint_widget.onToolClick.connect(lambda tool: self.changeTool(tool))
+        self.paint_widget.onCheckFill.connect(lambda value: self.changeFill(value))
         
         self.paint_widget.columnaColores.replaceWidget(self.paint_widget.WPaint, self.paint)
         self.paint_widget.WPaint.deleteLater()
@@ -40,6 +41,9 @@ class MainWindow(QMainWindow):
     def changeTool(self, tool):
         print(tool)
         self.paint.tool = tool
+    
+    def changeFill(self, value):
+        self.paint.fill = value
     
     def init_ui(self):
         self.show()

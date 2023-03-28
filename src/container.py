@@ -17,6 +17,7 @@ class Ui_Paint(QWidget):
     
     onToolClick = pyqtSignal(Herramientas)
     onColorClick = pyqtSignal(QColor)
+    onCheckFill = pyqtSignal(bool)
     
     def connect_signals(self):
         # Tools
@@ -47,6 +48,12 @@ class Ui_Paint(QWidget):
         self.btnMenta.clicked.connect(lambda _: self.colorClick(self.btnMenta))
         self.btnRosa.clicked.connect(lambda _: self.colorClick(self.btnRosa))
         
+        self.checkRelleno.toggled.connect(lambda x: self.toggleFill(x))
+    
+    def toggleFill(self, value):
+        print(value)
+        self.onCheckFill.emit(value)
+    
     def itemClick(self, tool):
         self.onToolClick.emit(tool)
         
@@ -123,10 +130,10 @@ class Ui_Paint(QWidget):
         self.btnCuadradoRedondo.setIconSize(QtCore.QSize(32, 32))
         self.btnCuadradoRedondo.setObjectName("btnCuadradoRedondo")
         self.formLayout_2.setWidget(5, QtWidgets.QFormLayout.ItemRole.SpanningRole, self.btnCuadradoRedondo)
-        self.checkBox_6 = QtWidgets.QCheckBox(parent=self.columnaHerramientas1)
-        self.checkBox_6.setIconSize(QtCore.QSize(32, 32))
-        self.checkBox_6.setObjectName("checkBox_6")
-        self.formLayout_2.setWidget(6, QtWidgets.QFormLayout.ItemRole.SpanningRole, self.checkBox_6)
+        self.checkRelleno = QtWidgets.QCheckBox(parent=self.columnaHerramientas1)
+        self.checkRelleno.setIconSize(QtCore.QSize(32, 32))
+        self.checkRelleno.setObjectName("checkBox_6")
+        self.formLayout_2.setWidget(6, QtWidgets.QFormLayout.ItemRole.SpanningRole, self.checkRelleno)
         self.columnaTools.addWidget(self.columnaHerramientas1)
         self.columnaHerramientas2 = QtWidgets.QGroupBox(parent=self.centralwidget)
         self.columnaHerramientas2.setObjectName("columnaHerramientas2")
@@ -311,4 +318,4 @@ class Ui_Paint(QWidget):
     def retranslateUi(self, Paint):
         _translate = QtCore.QCoreApplication.translate
         Paint.setWindowTitle(_translate("Paint", "MainWindow"))
-        self.checkBox_6.setText(_translate("Paint", "Relleno"))
+        self.checkRelleno.setText(_translate("Paint", "Relleno"))

@@ -11,7 +11,8 @@ class PaintWidget(QWidget):
         super().__init__(parent)
         self.setSizePolicy(QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Preferred)
         self.tool = Herramientas.PINCEL
-        self.image = QPixmap(self.size())
+        self.fill = False
+        self.image = QPixmap(self.width() - 20, self.height())
         self.image.fill(QColor(255, 255, 255))
         self.last_pos = QPoint()
         self.draw_color = QColor(0, 0, 0)
@@ -37,13 +38,26 @@ class PaintWidget(QWidget):
                     rect = QRect(pointStart.x(), pointStart.y(), pointEnd.x() - pointStart.x(), pointEnd.y() - pointStart.y())
                     match self.tool:
                         case Herramientas.CUADRADO:
-                            painter.drawRect(rect)
+                            if not self.fill:
+                                painter.drawRect(rect)
+                            else:
+                                painter.fillRect(rect, self.draw_color)
                         case Herramientas.CUADRADO_REDONDO:
+                            if self.fill:
+                                brush = QBrush(self.draw_color)
+                                painter.setBrush(brush)
                             painter.drawRoundedRect(rect, 10, 10)
                         case Herramientas.CIRCULO:
+                            if self.fill:
+                                brush = QBrush(self.draw_color)
+                                painter.setBrush(brush)
                             painter.drawEllipse(rect)
+                                
                         case Herramientas.TRIANGULO:
-                            thirdPoint = QPoint(pointStart.x() * 2, pointStart.y())
+                            if self.fill:
+                                brush = QBrush(self.draw_color)
+                                painter.setBrush(brush)
+                            thirdPoint = QPoint(pointStart.x() // 2, pointStart.y())
                             path = QPainterPath()
                             path.moveTo(pointStart.x(), pointStart.y())
                             path.lineTo(pointEnd.x(), pointEnd.y())
@@ -94,11 +108,14 @@ class PaintWidget(QWidget):
         if event.buttons() and Qt.MouseButton.LeftButton:
             painter = QPainter(self.image)
             match self.tool:
-                case Herramientas.PINCEL:
+                case Herramientas.LAPIZ:
                     painter.setPen(QPen(self.draw_color, self.draw_size, Qt.PenStyle.SolidLine))
                     painter.drawLine(self.last_pos, event.pos())
+                case Herramientas.PINCEL:                  
+                    painter.setPen(QPen(self.draw_color, 10, Qt.PenStyle.SolidLine))
+                    painter.drawLine(self.last_pos, event.pos())
                 case Herramientas.BORRADOR:
-                    painter.eraseRect(event.pos().x(), event.pos().y(), 20, 20)
+                    painter.eraseRect(event.pos().x(), event.pos().y(), 100, 100)
                 case Herramientas.CUADRADO_REDONDO:
                     pass
             self.last_pos = event.pos()
